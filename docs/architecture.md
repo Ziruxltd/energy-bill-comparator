@@ -1,0 +1,153 @@
+# Architecture
+
+## Designing for multiple energy types
+
+- `ExtractedBill` is a **discriminated union** on `energyType` (`"electricity"` | `"gas"`). Each energy type has its own schema with its own fields.
+- Calculation logic lives in one folder per energy type, behind a **common interface** (e.g. `EnergyCalculator` with `calculateBill(bill, tariff)`). `compare.ts` only talks to that interface.
+- Tariffs, prompts, tax rates, UI breakdown components and evals are also split by energy type.
+- Adding a new energy type means adding new folders and registering it — not editing the existing ones.
+- Shared concepts (billing period, retailer, VAT, discounts, money helpers) go in `shared/`.
+
+## Request flow
+
+```
+PDF upload (web)
+  -> analyze-bill (Netlify function)
+    -> validation: PDF magic bytes, size <= 4 MB, token count (before any paid call)
+    -> extraction: detect energy type (cheap model, also rejects non-bills) -> extract with Claude -> validate with Zod
+    -> core: pick calculator by energyType -> recalculate bill with each tariff -> rank
+  -> result (ranking + breakdown + confidence flags) back to the web
+```
+
+## Folder structure
+
+```
+energy-bill-comparator/
+├── CLAUDE.md
+├── README.md                     # What it is, demo link, architecture, eval results
+├── package.json                  # Root scripts
+├── pnpm-workspace.yaml
+├── netlify.toml
+├── tsconfig.base.json            # Strict options shared by every package
+├── tsconfig.json                 # Typechecks netlify/ and evals/
+├── eslint.config.js              # Flat config
+├── prettier.config.js
+├── commitlint.config.js
+├── lefthook.yml                  # Git hooks: pre-commit, commit-msg
+├── vitest.config.ts              # Test projects for every package
+├── .github/workflows/ci.yml      # lint, format check, typecheck, tests
+├── .env.example                  # ANTHROPIC_API_KEY, ANTHROPIC_MODEL_DETECTION, ANTHROPIC_MODEL_EXTRACTION, DEMO_MODE (no real values)
+├── .gitignore                    # Includes .env and evals/bills/
+│
+├── apps/
+│   └── web/                      # Vue 3 frontend
+│       ├── index.html
+│       ├── vite.config.ts
+│       └── src/
+│           ├── main.ts
+│           ├── App.vue
+│           ├── i18n/             # UI copy (Spanish first)
+│           ├── views/            # UploadBillView, ResultsView
+│           ├── components/
+│           │   ├── shared/       # UploadDropzone, TariffRanking, EstimateDisclaimer
+│           │   ├── electricity/  # ElectricityBillBreakdown
+│           │   └── gas/          # (v2) GasBillBreakdown
+│           ├── composables/      # useAnalyzeBill
+│           └── services/         # api.ts (calls the Netlify function)
+│
+├── packages/
+│   ├── core/                     # Pure domain logic. NO AI or network dependencies
+│   │   ├── src/
+│   │   │   ├── shared/
+│   │   │   │   ├── schema.ts     # Zod: BillingPeriod, Retailer, Discount, ExtractedBill (union)
+│   │   │   │   ├── money.ts      # decimal.js helpers, rounding rules
+│   │   │   │   ├── vat.ts
+│   │   │   │   └── calculator.ts # EnergyCalculator interface
+│   │   │   ├── electricity/
+│   │   │   │   ├── schema.ts     # Zod: ElectricityBill, ElectricityTariff
+│   │   │   │   ├── power.ts      # Power term (P1, P2)
+│   │   │   │   ├── energy.ts     # Energy term (P1, P2, P3)
+│   │   │   │   ├── taxes.ts      # Electricity tax
+│   │   │   │   ├── extras.ts     # Meter rental, social bonus financing
+│   │   │   │   ├── tax-rates.ts  # Current rates, with effective date and source
+│   │   │   │   └── calculator.ts # Implements EnergyCalculator
+│   │   │   ├── gas/              # (v2) Same shape as electricity/
+│   │   │   ├── compare.ts        # Picks the calculator by energyType, ranks tariffs
+│   │   │   └── index.ts
+│   │   └── test/
+│   │       ├── electricity/
+│   │       └── gas/
+│   │
+│   └── extraction/               # Everything that talks to Claude
+│       ├── src/
+│       │   ├── config.ts         # The only place that reads model env vars (with defaults)
+│       │   ├── detect.ts         # Detects energy type of the uploaded bill (or "not a bill")
+│       │   ├── electricity/
+│       │   │   ├── prompt.ts     # Extraction instructions for electricity bills
+│       │   │   └── output-schema.ts # Zod schema passed to structured outputs (zodOutputFormat)
+│       │   ├── gas/              # (v2)
+│       │   ├── extract.ts        # PDF -> ExtractedBill (detect -> extract -> validate, retries once)
+│       │   └── redact.ts         # Masks DNI, CUPS, name, address, IBAN
+│       └── test/
+│
+├── netlify/
+│   └── functions/
+│       └── analyze-bill.ts       # Receives PDF -> extraction -> core -> returns result
+│
+├── data/
+│   └── tariffs/
+│       ├── electricity/
+│       │   └── 2026-10.json      # Current tariffs; each with source URL and date checked
+│       └── gas/                  # (v2)
+│
+├── data/samples/                 # Pre-extracted ExtractedBill JSON for demo mode (no Claude call)
+│
+├── evals/
+│   ├── bills/                    # Real, redacted PDFs. NOT committed to git
+│   │   ├── electricity/
+│   │   └── gas/
+│   ├── ground-truth/             # Hand-labeled JSON for each bill (committed)
+│   │   ├── electricity/
+│   │   └── gas/
+│   ├── run-evals.ts              # Extracts every bill and compares field by field (--model <id>)
+│   └── results/                  # Reports by date and model (accuracy per field, cost per bill)
+│
+└── docs/
+    ├── architecture.md           # This file
+    ├── roadmap.md
+    └── decisions/                # Short ADRs: 001-llm-extracts-code-calculates.md,
+                                  # 002-one-module-per-energy-type.md, etc.
+```
+
+## Data schema (starting point)
+
+Common fields (all energy types):
+
+- `energyType`: `"electricity"` | `"gas"`
+- `retailer`, `tariffName`
+- `billingPeriod`: `startDate`, `endDate`, `days`
+- `discounts[]`, `totalAmountEur`
+- `confidence`: per field (`high` | `medium` | `low`) so the UI can warn the user
+- Fields not found: `null`, never invented
+- Money amounts and prices are **decimal strings** (e.g. `"0.123456"`), converted to `Decimal` in core. Never JSON numbers.
+
+Electricity-specific (`ElectricityBill`):
+
+- `contractedPowerKw`: `{ p1, p2 }`
+- `consumptionKwh`: `{ p1, p2, p3 }`
+- `prices`: `powerEurPerKwDay { p1, p2 }`, `energyEurPerKwh { p1, p2, p3 }`
+- `meterRentalEur`
+
+Tariff (`ElectricityTariff`, one entry in `data/tariffs/electricity/*.json`):
+
+- `retailer`, `tariffName`, `energyType`, `accessTariff` (`"2.0TD"`)
+- `prices`: `powerEurPerKwDay { p1, p2 }`, `energyEurPerKwh { p1, p2, p3 }` (decimal strings)
+- `sourceUrl`, `checkedAt`, `validFrom`
+
+Tariff JSON is imported by the Netlify function (bundled at deploy) and validated with the core Zod schema at module load. `packages/core` never reads files: it receives tariffs as arguments.
+
+Gas-specific (`GasBill`, v2 — to be defined): access tariff (RL.1, RL.2…), consumption in kWh, fixed daily term, variable price per kWh, meter rental, hydrocarbons tax.
+
+## Extraction cross-check
+
+If the total recalculated from the extracted data differs from `totalAmountEur` by more than a threshold (e.g. 2%), flag the extraction as uncertain and show it in the UI.
