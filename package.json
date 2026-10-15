@@ -1,0 +1,39 @@
+{
+  "name": "energy-bill-comparator",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.7",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "dev": "netlify dev",
+    "build": "pnpm --filter @ebc/web build",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "pnpm -r typecheck && tsc --noEmit -p .",
+    "test": "vitest run",
+    "evals": "tsx evals/run-evals.ts"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "21.2.3",
+    "@commitlint/config-conventional": "21.2.3",
+    "@eslint/js": "10.0.1",
+    "@netlify/functions": "6.0.2",
+    "@types/node": "22.20.5",
+    "eslint": "10.12.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-vue": "10.11.1",
+    "globals": "17.13.0",
+    "lefthook": "2.2.2",
+    "netlify-cli": "27.12.1",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.2",
+    "vitest": "5.0.5"
+  }
+}

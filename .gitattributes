@@ -1,0 +1,4 @@
+# LF everywhere so Prettier's endOfLine check passes on Windows checkouts too
+* text=auto eol=lf
+*.png binary
+*.pdf binary

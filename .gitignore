@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.netlify/
+*.log
+
+# Secrets: only the example is committed
+.env
+.env.*
+!.env.example
+
+# Real bills never go to git (see CLAUDE.md, Privacy)
+evals/bills/

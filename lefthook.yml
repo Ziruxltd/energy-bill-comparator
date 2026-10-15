@@ -1,0 +1,17 @@
+# Git hooks. Typecheck and tests run in CI: they are whole-project and too slow for every commit.
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      glob: "*.{ts,vue,js,mjs}"
+      run: pnpm exec eslint --fix {staged_files}
+      stage_fixed: true
+    prettier:
+      glob: "*.{ts,vue,js,mjs,json,md,yml,yaml,css,html}"
+      run: pnpm exec prettier --write {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm exec commitlint --edit {1}

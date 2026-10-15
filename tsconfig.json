@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["netlify/**/*.ts", "evals/**/*.ts", "*.config.ts"]
+}
