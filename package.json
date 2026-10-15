@@ -8,7 +8,7 @@
   },
   "scripts": {
     "prepare": "lefthook install",
-    "dev": "netlify dev",
+    "dev": "netlify dev --filter @ebc/web",
     "build": "pnpm --filter @ebc/web build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",

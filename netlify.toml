@@ -10,6 +10,6 @@
   node_bundler = "esbuild"
 
 [dev]
-  framework = "vite"
+  framework = "#custom" # skips the monorepo "which project?" prompt
   command = "pnpm --filter @ebc/web dev"
   targetPort = 5173
