@@ -1,6 +1,7 @@
 # Git hooks. Typecheck and tests run in CI: they are whole-project and too slow for every commit.
 pre-commit:
-  parallel: true
+  # One after another (ESLint, then Prettier): in parallel both fixers rewrite the same file and one fix is lost
+  piped: true
   commands:
     eslint:
       glob: "*.{ts,vue,js,mjs}"
