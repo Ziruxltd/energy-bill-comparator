@@ -6,7 +6,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-  { ignores: ["**/dist/", "**/coverage/", ".netlify/", "evals/results/"] },
+  { ignores: ["**/dist/", "**/coverage/", "**/.netlify/", "evals/results/"] },
 
   js.configs.recommended,
   // Not the type-checked preset: tsc/vue-tsc already catch type errors, and type-aware lint doubles lint time.
