@@ -78,10 +78,3 @@ The tooling is in the repo: see the root config files, `docs/decisions/003-*` an
 | R10 | **Tool versions** (peer ranges between Vite, Vitest, vue-tsc and typescript-eslint).                                                        | Pin exact versions at install time after checking peer dependency ranges (`npm view <pkg> peerDependencies`). Don't trust memory. See section 2 for what this changed in phase 1.                                                                                                                                                                                                             |
 
 ---
-
-## Verification (phase 1, when executed)
-
-- `pnpm install && pnpm lint && pnpm format:check && pnpm typecheck && pnpm test`: all green.
-- Negative tests from 2.7 point 3, run by hand and then reverted.
-- `pnpm dev`: open the page, `curl -X POST localhost:8888/.netlify/functions/analyze-bill` returns 501.
-- Push a branch and open a PR: GitHub Actions is green, and a deliberate lint error makes it red.
