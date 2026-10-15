@@ -1,7 +1,9 @@
 name: CI
 
 on:
+  # main only: branches with an open PR are already covered by pull_request
   push:
+    branches: [main]
   pull_request:
 
 # A new push to the same branch cancels the outdated run
@@ -24,3 +26,4 @@ jobs:
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm test
+      - run: pnpm build
