@@ -54,6 +54,14 @@ The tooling is in the repo: see the root config files, `docs/decisions/003-*` an
 - Packages are consumed as TS source (`exports: ./src/index.ts`), with no build step and no project references.
 - Optional, not done: a Claude Code `PostToolUse` hook to format files after edits.
 
+## Phase 2 (done, 2026-10-16)
+
+- Decided with the author: `ROUND_HALF_UP` per bill line; confidence as fixed keys per field group; every field nullable except `energyType` (`discounts` is `[]`).
+- `ElectricityBill` (the extracted bill schema) moved from phase 3 into phase 2, because the union needs a member to be tested. `ElectricityTariff` stays in phase 3.
+- The `ExtractedBill` union lives in `core/src/extracted-bill.ts`, not `shared/schema.ts`: shared would import electricity, which imports shared, an ES module cycle.
+- `EnergyCalculator.calculateBill` returns `CalculationResult` (`{ ok: true, breakdown } | { ok: false, missingFields }`), so a bill with null fields produces an explainable result instead of an exception.
+- The interface test is checked by `pnpm typecheck` (`expectTypeOf`); Vitest alone doesn't check types.
+
 ## 3. Open questions and risks (with recommendations)
 
 | #   | Risk / question                                                                                                                             | Recommendation                                                                                                                                                                                                                                                                                                                                                                                |

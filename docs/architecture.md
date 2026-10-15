@@ -58,11 +58,12 @@ energy-bill-comparator/
 ├── packages/
 │   ├── core/                     # Pure domain logic. NO AI or network dependencies
 │   │   ├── src/
+│   │   │   ├── extracted-bill.ts # ExtractedBill union: the registry of energy types
 │   │   │   ├── shared/
-│   │   │   │   ├── schema.ts     # Zod: BillingPeriod, Retailer, Discount, ExtractedBill (union)
+│   │   │   │   ├── schema.ts     # Zod: DecimalString, ConfidenceLevel, BillingPeriod, Discount, common fields
 │   │   │   │   ├── money.ts      # decimal.js helpers, rounding rules
 │   │   │   │   ├── vat.ts
-│   │   │   │   └── calculator.ts # EnergyCalculator interface
+│   │   │   │   └── calculator.ts # EnergyCalculator interface, BillBreakdown, CalculationResult
 │   │   │   ├── electricity/
 │   │   │   │   ├── schema.ts     # Zod: ElectricityBill, ElectricityTariff
 │   │   │   │   ├── power.ts      # Power term (P1, P2)
@@ -126,9 +127,10 @@ Common fields (all energy types):
 - `energyType`: `"electricity"` | `"gas"`
 - `retailer`, `tariffName`
 - `billingPeriod`: `startDate`, `endDate`, `days`
-- `discounts[]`, `totalAmountEur`
-- `confidence`: per field (`high` | `medium` | `low`) so the UI can warn the user
-- Fields not found: `null`, never invented
+- `discounts[]` (`description`, `amountEur`), `totalAmountEur`
+- `confidence`: an object with one fixed key per field group (`retailer`, `billingPeriod`, `prices`…), each `high` | `medium` | `low`, so the UI can warn per section. Fixed keys (not a free record) keep it typed and compatible with structured outputs.
+- Fields not found: `null`, never invented. Every field except `energyType` is nullable (`discounts` is `[]` when there are none). The calculator, not the schema, decides whether there is enough data and returns `{ ok: false, missingFields }` otherwise.
+- Dates: ISO `YYYY-MM-DD` (the model normalises Spanish `dd/mm/yyyy`).
 - Money amounts and prices are **decimal strings** (e.g. `"0.123456"`), converted to `Decimal` in core. Never JSON numbers.
 
 Electricity-specific (`ElectricityBill`):
@@ -147,6 +149,12 @@ Tariff (`ElectricityTariff`, one entry in `data/tariffs/electricity/*.json`):
 Tariff JSON is imported by the Netlify function (bundled at deploy) and validated with the core Zod schema at module load. `packages/core` never reads files: it receives tariffs as arguments.
 
 Gas-specific (`GasBill`, v2 — to be defined): access tariff (RL.1, RL.2…), consumption in kWh, fixed daily term, variable price per kWh, meter rental, hydrocarbons tax.
+
+## Money rules
+
+- `decimal.js` everywhere; amounts enter core as decimal strings.
+- Each bill line is rounded to cents with `ROUND_HALF_UP` (`roundToCents`), as Spanish bills print them. The total is the sum of rounded lines. Intermediate math is never rounded.
+- The rounding mode is passed on each call, not set in `decimal.js` global config, so no import can change it.
 
 ## Extraction cross-check
 
