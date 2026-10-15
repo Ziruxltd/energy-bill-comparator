@@ -14,6 +14,7 @@ This is a **portfolio project**: besides working, it must demonstrate solid AI e
 
 - `docs/architecture.md` — folder structure, data schema, request flow, multi-energy design. **Read it before creating, moving or renaming files, or changing a schema.**
 - `docs/roadmap.md` — what's done and what's next. Update the checkboxes when a step is finished.
+- `docs/v1-plan.md` — v1 phases: files each phase creates, what "done" means, decisions and risks. **Read it before starting a phase.**
 - `docs/decisions/` — ADRs for important decisions.
 
 ## Golden rule
