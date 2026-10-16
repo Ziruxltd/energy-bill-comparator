@@ -69,7 +69,7 @@ The tooling is in the repo: see the root config files, `docs/decisions/003-*` an
 - `EnergyCalculator` gained `currentTariff(bill)`, so `compare.ts` can recalculate the bill with its own prices for the cross-check and the savings baseline without knowing electricity fields.
 - `extras.ts` was not created: social bonus, meter rental and services are amounts copied from the bill, so there was no calculation to put in it.
 - Electricity tax: 5.11269632% with a 1 €/MWh minimum (Ley 38/1992 art. 99, BOE checked 2026-10-16). RDL 25/2026 may cut it to 0.5% in Nov–Dec 2026 depending on CPI: `TODO: verify` in `tax-rates.ts`.
-- Still open: discount position before the electricity tax is an assumption (no discount on the golden bill). `data/tariffs/electricity/2026-10.json` has placeholder prices (`"0"`, `verified: false`), to be filled from each retailer's site before phase 6.
+- Still open: discount position before the electricity tax is an assumption (no discount on the golden bill). Tariff prices were filled from each retailer's own page on 2026-10-16. EDP was dropped from v1: it has no household offer since selling that business to TotalEnergies in 2020.
 
 ## 3. Open questions and risks (with recommendations)
 

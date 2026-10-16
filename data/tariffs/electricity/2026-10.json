@@ -66,7 +66,7 @@
     "checkedAt": "2026-10-16",
     "validFrom": "2026-10-16",
     "verified": true,
-    "notes": "The page also shows a 0.112 €/kWh option without saying what it requires; the default 0.123 is used. Offer valid until 2026-10-30."
+    "notes": "The page also shows a 0.112 €/kWh option for another modality; the standard 0.123 is used. Offer valid until 2026-10-30."
   },
   {
     "energyType": "electricity",
@@ -113,29 +113,6 @@
     "validFrom": "2026-10-16",
     "verified": true,
     "notes": "Fixed for 12 months."
-  },
-  {
-    "energyType": "electricity",
-    "retailer": "EDP",
-    "tariffName": "None (no household offer)",
-    "accessTariff": "2.0TD",
-    "prices": {
-      "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
-      },
-      "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
-      }
-    },
-    "discounts": [],
-    "sourceUrl": "https://www.edpenergia.es/es/hogar/luz/",
-    "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-16",
-    "verified": false,
-    "notes": "EDP sold its Spanish household business to TotalEnergies in 2020; the household page redirects to the business site. Placeholder only."
   },
   {
     "energyType": "electricity",

@@ -32,7 +32,7 @@ One module per energy type (`electricity/`, `gas/`) behind a common `EnergyCalcu
 ## v1 scope
 
 - **Electricity only**: residential, 2.0TD, mainland Spain. Gas folders exist as placeholders.
-- Fixed-price tariffs from: Iberdrola, Endesa, Naturgy, TotalEnergies, Repsol, EDP, Holaluz, Octopus Energy.
+- Fixed-price tariffs from: Iberdrola, Endesa, Naturgy, TotalEnergies, Repsol, Holaluz, Octopus Energy. (EDP dropped: no household offer since selling that business to TotalEnergies in 2020.)
 - Out of scope: gas (v2), PVPC/TUR, self-consumption, indexed tariffs, automatic tariff updates, dual-fuel bills.
 
 ## Stack

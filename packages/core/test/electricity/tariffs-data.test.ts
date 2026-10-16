@@ -14,7 +14,6 @@ describe("data/tariffs/electricity/2026-10.json", () => {
       "Naturgy",
       "TotalEnergies",
       "Repsol",
-      "EDP",
       "Holaluz",
       "Octopus Energy",
     ]);
