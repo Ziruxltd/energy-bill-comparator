@@ -80,14 +80,15 @@ energy-bill-comparator/
 │   │
 │   └── extraction/               # Everything that talks to Claude
 │       ├── src/
-│       │   ├── config.ts         # The only place that reads model env vars (with defaults)
+│       │   ├── config.ts         # The only place that reads process.env (models with defaults, limits)
+│       │   ├── claude.ts         # PDF block, stop_reason checks, token usage per call
+│       │   ├── errors.ts         # ExtractionError with a code per expected failure
 │       │   ├── detect.ts         # Detects energy type of the uploaded bill (or "not a bill")
 │       │   ├── electricity/
-│       │   │   ├── prompt.ts     # Extraction instructions for electricity bills
-│       │   │   └── output-schema.ts # Zod schema passed to structured outputs (zodOutputFormat)
+│       │   │   └── prompt.ts     # Extraction instructions; the JSON shape is core's ElectricityBill
 │       │   ├── gas/              # (v2)
-│       │   ├── extract.ts        # PDF -> ExtractedBill (detect -> extract -> validate, retries once)
-│       │   └── redact.ts         # Masks DNI, CUPS, name, address, IBAN
+│       │   ├── extract.ts        # PDF -> ElectricityBill (checks -> countTokens -> detect -> extract, retries once)
+│       │   └── redact.ts         # Masks IBAN, CUPS, DNI/NIE, email, phone (not names or addresses)
 │       └── test/
 │
 ├── netlify/

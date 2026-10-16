@@ -71,6 +71,16 @@ The tooling is in the repo: see the root config files, `docs/decisions/003-*` an
 - Electricity tax: 5.11269632% with a 1 €/MWh minimum (Ley 38/1992 art. 99, BOE checked 2026-10-16). RDL 25/2026 may cut it to 0.5% in Nov–Dec 2026 depending on CPI: `TODO: verify` in `tax-rates.ts`.
 - Still open: discount position before the electricity tax is an assumption (no discount on the golden bill). Tariff prices were filled from each retailer's own page on 2026-10-16. EDP was dropped from v1: it has no household offer since selling that business to TotalEnergies in 2020.
 
+## Phase 4 (2026-10-17)
+
+- `@anthropic-ai/sdk` 0.133.0, pinned exact (released a week before; 0.135.0 was a day old).
+- `messages.create()` + `zodOutputFormat` instead of `messages.parse()`, and no separate output schema: see the amendment in ADR 003.
+- `otherServicesEur` became `otherServices[]`, listed by the model and summed by code, so the LLM never adds numbers.
+- Added `claude.ts` (shared PDF block, stop-reason checks, usage) and `errors.ts` (`ExtractionError` codes: `not_pdf`, `too_large`, `too_many_tokens`, `not_a_bill`, `unsupported_energy`, `refusal`, `truncated`, `invalid_output`).
+- Effort: `low` for detection, `medium` for extraction, set explicitly; phase 5 evals decide. No server-side `fallbacks`, by rule, although the SDK guide recommends them for Sonnet 5.5.
+- `redact.ts` masks fixed-format identifiers only. Names and addresses have no fixed format; the protection is never logging bill contents (R7).
+- Known gap for evals: a power price printed per year or month is extracted as null (converting would be calculating), so such bills can't be recalculated yet.
+
 ## 3. Open questions and risks (with recommendations)
 
 | #   | Risk / question                                                                                                                             | Recommendation                                                                                                                                                                                                                                                                                                                                                                                |
