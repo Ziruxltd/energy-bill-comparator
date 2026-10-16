@@ -1,0 +1,178 @@
+[
+  {
+    "energyType": "electricity",
+    "retailer": "Iberdrola",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.iberdrola.es/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "Endesa",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.endesa.com/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "Naturgy",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.naturgy.es/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "TotalEnergies",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.totalenergies.es/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "Repsol",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.repsol.es/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "EDP",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.edpenergia.es/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "Holaluz",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://www.holaluz.com/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  },
+  {
+    "energyType": "electricity",
+    "retailer": "Octopus Energy",
+    "tariffName": "TODO: verify",
+    "accessTariff": "2.0TD",
+    "prices": {
+      "powerEurPerKwDay": {
+        "p1": "0",
+        "p2": "0"
+      },
+      "energyEurPerKwh": {
+        "p1": "0",
+        "p2": "0",
+        "p3": "0"
+      }
+    },
+    "discounts": [],
+    "sourceUrl": "https://octopusenergy.es/",
+    "checkedAt": "2026-10-16",
+    "validFrom": "2026-10-01",
+    "verified": false
+  }
+]
