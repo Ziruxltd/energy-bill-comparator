@@ -22,4 +22,6 @@ export type CalculationResult =
 export interface EnergyCalculator<TBill extends { energyType: string }, TTariff> {
   readonly energyType: TBill["energyType"];
   calculateBill(bill: TBill, tariff: TTariff): CalculationResult;
+  /** The tariff the bill was charged with, from its extracted prices; null if prices are missing. */
+  currentTariff(bill: TBill): TTariff | null;
 }

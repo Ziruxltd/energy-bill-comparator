@@ -23,7 +23,9 @@ describe("ExtractedBill", () => {
         powerEurPerKwDay: { p1: null, p2: null },
         energyEurPerKwh: { p1: null, p2: null, p3: null },
       },
+      socialBonusFinancingEur: null,
       meterRentalEur: null,
+      otherServicesEur: null,
       confidence: validElectricityBill.confidence,
     };
     expect(ExtractedBill.safeParse(bill).success).toBe(true);

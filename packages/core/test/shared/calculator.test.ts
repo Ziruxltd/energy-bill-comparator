@@ -21,6 +21,7 @@ const stubCalculator: EnergyCalculator<ElectricityBill, StubTariff> = {
             totalEur: new Decimal(tariff.flatEur),
           },
         },
+  currentTariff: () => ({ flatEur: "10.00" }),
 };
 
 describe("EnergyCalculator", () => {
