@@ -5,7 +5,7 @@
 - [x] Monorepo, tooling and basic CI (lint, format, typecheck and tests on GitHub Actions)
 - [x] Shared schema (discriminated union) + `EnergyCalculator` interface
 - [x] Electricity schema and calculation engine with tests (start by recalculating a real bill with a known total) — tariff prices in `data/tariffs/` are still placeholders
-- [ ] Energy type detection + electricity extraction with Claude + total cross-check
+- [x] Energy type detection + electricity extraction with Claude + total cross-check
 - [ ] 20–30 redacted electricity bills with ground truth + `run-evals.ts`
 - [ ] Netlify function connecting extraction and calculation
 - [ ] Frontend: upload, ranking, breakdown, estimate disclaimer (mobile first)

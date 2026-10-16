@@ -79,6 +79,8 @@ The tooling is in the repo: see the root config files, `docs/decisions/003-*` an
 - Added `claude.ts` (shared PDF block, stop-reason checks, usage) and `errors.ts` (`ExtractionError` codes: `not_pdf`, `too_large`, `too_many_tokens`, `not_a_bill`, `unsupported_energy`, `refusal`, `truncated`, `invalid_output`).
 - Effort: `low` for detection, `medium` for extraction, set explicitly; phase 5 evals decide. No server-side `fallbacks`, by rule, although the SDK guide recommends them for Sonnet 5.5.
 - `redact.ts` masks fixed-format identifiers only. Names and addresses have no fixed format; the protection is never logging bill contents (R7).
+- **Manual run (2026-10-17)** on the real golden bill: 32/32 fields equal to the hand-typed fixture, recalculated total 72.29 € (`match`). Usage: detection (Haiku 5.5) 12,673 in / 13 out, extraction (Sonnet 5.5) 15,842 in / 445 out, about $0.037 for the bill. Took 14.7 s end to end, which matters for the function timeout (R4).
+- **The 20k token limit is tight:** this 4-page bill uses about 15.8k input tokens on the extraction call, so a 6-page bill would be rejected. Re-measure with the eval set in phase 5 before deploy.
 - Known gap for evals: a power price printed per year or month is extracted as null (converting would be calculating), so such bills can't be recalculated yet.
 
 ## 3. Open questions and risks (with recommendations)
