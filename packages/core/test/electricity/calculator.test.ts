@@ -38,7 +38,7 @@ describe("electricityCalculator", () => {
   });
 
   it("omits the services line when the bill has none", () => {
-    const bill = { ...goldenElectricityBill, otherServicesEur: null };
+    const bill = { ...goldenElectricityBill, otherServices: [] };
     const result = electricityCalculator.calculateBill(bill, ownTariff());
     expect(result.ok && result.breakdown.lines.map((line) => line.concept)).not.toContain(
       "otherServices",

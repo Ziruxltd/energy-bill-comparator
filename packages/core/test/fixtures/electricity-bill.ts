@@ -16,7 +16,7 @@ export const validElectricityBill: ElectricityBill = {
   },
   socialBonusFinancingEur: "0.77",
   meterRentalEur: "0.81",
-  otherServicesEur: null,
+  otherServices: [],
   confidence: {
     retailer: "high",
     tariffName: "medium",
@@ -28,6 +28,6 @@ export const validElectricityBill: ElectricityBill = {
     prices: "low",
     socialBonusFinancingEur: "high",
     meterRentalEur: "medium",
-    otherServicesEur: "high",
+    otherServices: "high",
   },
 };

@@ -65,11 +65,23 @@ The tooling is in the repo: see the root config files, `docs/decisions/003-*` an
 ## Phase 3 (done, 2026-10-16)
 
 - **Golden bill:** a real Iberdrola 2.0TD bill (Aug 2026) recalculates line by line to its printed 72.29 €. Only its numbers are in `core/test/fixtures/golden-electricity-bill.ts`.
-- What the bill changed: energy is one line rounded once (per-period rounding was a cent off); the electricity tax base is power + energy + social bonus (meter rental is outside it); new nullable fields `socialBonusFinancingEur` and `otherServicesEur` (add-on services, 12.62 € on that bill, without which the cross-check showed a false ~21% gap).
+- What the bill changed: energy is one line rounded once (per-period rounding was a cent off); the electricity tax base is power + energy + social bonus (meter rental is outside it); new fields `socialBonusFinancingEur` and `otherServices[]` (add-on services, 3.13 + 9.49 € on that bill, listed by the model and summed by code; without which the cross-check showed a false ~21% gap).
 - `EnergyCalculator` gained `currentTariff(bill)`, so `compare.ts` can recalculate the bill with its own prices for the cross-check and the savings baseline without knowing electricity fields.
 - `extras.ts` was not created: social bonus, meter rental and services are amounts copied from the bill, so there was no calculation to put in it.
 - Electricity tax: 5.11269632% with a 1 €/MWh minimum (Ley 38/1992 art. 99, BOE checked 2026-10-16). RDL 25/2026 may cut it to 0.5% in Nov–Dec 2026 depending on CPI: `TODO: verify` in `tax-rates.ts`.
 - Still open: discount position before the electricity tax is an assumption (no discount on the golden bill). Tariff prices were filled from each retailer's own page on 2026-10-16. EDP was dropped from v1: it has no household offer since selling that business to TotalEnergies in 2020.
+
+## Phase 4 (2026-10-17)
+
+- `@anthropic-ai/sdk` 0.133.0, pinned exact (released a week before; 0.135.0 was a day old).
+- `messages.create()` + `zodOutputFormat` instead of `messages.parse()`, and no separate output schema: see the amendment in ADR 003.
+- `otherServicesEur` became `otherServices[]`, listed by the model and summed by code, so the LLM never adds numbers.
+- Added `claude.ts` (shared PDF block, stop-reason checks, usage) and `errors.ts` (`ExtractionError` codes: `not_pdf`, `too_large`, `too_many_tokens`, `not_a_bill`, `unsupported_energy`, `refusal`, `truncated`, `invalid_output`).
+- Effort: `low` for detection, `medium` for extraction, set explicitly; phase 5 evals decide. No server-side `fallbacks`, by rule, although the SDK guide recommends them for Sonnet 5.5.
+- `redact.ts` masks fixed-format identifiers only. Names and addresses have no fixed format; the protection is never logging bill contents (R7).
+- **Manual run (2026-10-17)** on the real golden bill: 32/32 fields equal to the hand-typed fixture, recalculated total 72.29 € (`match`). Usage: detection (Haiku 5.5) 12,673 in / 13 out, extraction (Sonnet 5.5) 15,842 in / 445 out, about $0.037 for the bill. Took 14.7 s end to end, which matters for the function timeout (R4).
+- **The 20k token limit is tight:** this 4-page bill uses about 15.8k input tokens on the extraction call, so a 6-page bill would be rejected. Re-measure with the eval set in phase 5 before deploy.
+- Known gap for evals: a power price printed per year or month is extracted as null (converting would be calculating), so such bills can't be recalculated yet.
 
 ## 3. Open questions and risks (with recommendations)
 
