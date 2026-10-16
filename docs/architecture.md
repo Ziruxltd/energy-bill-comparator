@@ -150,7 +150,8 @@ Tariff (`ElectricityTariff`, one entry in `data/tariffs/electricity/*.json`):
 - `retailer`, `tariffName`, `energyType`, `accessTariff` (`"2.0TD"`)
 - `prices`: `powerEurPerKwDay { p1, p2 }`, `energyEurPerKwh { p1, p2, p3 }` (decimal strings)
 - `discounts`: always `[]` for offers; only the bill's own tariff carries the user's discounts
-- `sourceUrl`, `checkedAt`, `validFrom`, `verified` (false while prices are placeholders)
+- `sourceUrl`, `checkedAt`, `validFrom`, `verified` (false while prices are placeholders), optional `notes`
+- Prices are always the retailer's own page, without taxes, for a new customer contracting online in the first 12 months (first-year discounts included, the later price in `notes`), so the annual savings estimate covers the first year. Never comparison sites: they disagreed with each other and with the official pages. `validFrom` is the date the page states, or `checkedAt` if it states none.
 
 Tariff JSON is imported by the Netlify function (bundled at deploy) and validated with the core Zod schema at module load. `packages/core` never reads files: it receives tariffs as arguments.
 

@@ -2,117 +2,122 @@
   {
     "energyType": "electricity",
     "retailer": "Iberdrola",
-    "tariffName": "TODO: verify",
+    "tariffName": "Plan Estable",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.109562",
+        "p2": "0.086274"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.159269",
+        "p2": "0.159269",
+        "p3": "0.159269"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.iberdrola.es/",
+    "sourceUrl": "https://www.iberdrola.es/luz/tarifas/plan-estable",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-16",
+    "verified": true,
+    "notes": "Energy price is the first 12 months with a 15% discount; 0.187375 €/kWh from month 13. Up to 10 kW."
   },
   {
     "energyType": "electricity",
     "retailer": "Endesa",
-    "tariffName": "TODO: verify",
+    "tariffName": "Tarifa Luz 24h Online",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.093666",
+        "p2": "0.093666"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.166990",
+        "p2": "0.166990",
+        "p3": "0.166990"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.endesa.com/",
+    "sourceUrl": "https://www.endesa.com/es/luz-y-gas/luz/one/tarifa-one-luz",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-15",
+    "verified": true,
+    "notes": "Energy price is the first year with a 10% discount; 0.185544 €/kWh without it. Power is published as 2.849 €/kW·month, converted × 12 / 365."
   },
   {
     "energyType": "electricity",
     "retailer": "Naturgy",
-    "tariffName": "TODO: verify",
+    "tariffName": "Tarifa Por Uso Luz",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.123030",
+        "p2": "0.061562"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.123000",
+        "p2": "0.123000",
+        "p3": "0.123000"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.naturgy.es/",
+    "sourceUrl": "https://www.naturgy.es/hogar/luz/tarifa_por_uso_luz",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-16",
+    "verified": true,
+    "notes": "The page also shows a 0.112 €/kWh option without saying what it requires; the default 0.123 is used. Offer valid until 2026-10-30."
   },
   {
     "energyType": "electricity",
     "retailer": "TotalEnergies",
-    "tariffName": "TODO: verify",
+    "tariffName": "A tu Aire Luz Siempre",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.094493",
+        "p2": "0.094493"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.1199",
+        "p2": "0.1199",
+        "p3": "0.1199"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.totalenergies.es/",
+    "sourceUrl": "https://www.totalenergies.es/es/hogares/atencion-al-cliente/que-necesitas/precios-en-vigor-luz",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-16",
+    "verified": true,
+    "notes": "Up to 10 kW."
   },
   {
     "energyType": "electricity",
     "retailer": "Repsol",
-    "tariffName": "TODO: verify",
+    "tariffName": "Tarifa Sin Horarios",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.090137",
+        "p2": "0.090137"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.134900",
+        "p2": "0.134900",
+        "p3": "0.134900"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.repsol.es/",
+    "sourceUrl": "https://www.repsol.es/particulares/hogar/luz-y-gas/tarifas/tarifa-sin-horarios/",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-16",
+    "verified": true,
+    "notes": "Fixed for 12 months."
   },
   {
     "energyType": "electricity",
     "retailer": "EDP",
-    "tariffName": "TODO: verify",
+    "tariffName": "None (no household offer)",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
@@ -126,53 +131,56 @@
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.edpenergia.es/",
+    "sourceUrl": "https://www.edpenergia.es/es/hogar/luz/",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-16",
+    "verified": false,
+    "notes": "EDP sold its Spanish household business to TotalEnergies in 2020; the household page redirects to the business site. Placeholder only."
   },
   {
     "energyType": "electricity",
     "retailer": "Holaluz",
-    "tariffName": "TODO: verify",
+    "tariffName": "Tarifa Clásica",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.120",
+        "p2": "0.120"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.144",
+        "p2": "0.144",
+        "p3": "0.144"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://www.holaluz.com/",
+    "sourceUrl": "https://www.holaluz.com/luz/tarifas-luz",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-16",
+    "verified": true,
+    "notes": "Online price; 0.154 €/kWh when contracting by phone. Fixed for 12 months."
   },
   {
     "energyType": "electricity",
     "retailer": "Octopus Energy",
-    "tariffName": "TODO: verify",
+    "tariffName": "Octopus Relax",
     "accessTariff": "2.0TD",
     "prices": {
       "powerEurPerKwDay": {
-        "p1": "0",
-        "p2": "0"
+        "p1": "0.12",
+        "p2": "0.12"
       },
       "energyEurPerKwh": {
-        "p1": "0",
-        "p2": "0",
-        "p3": "0"
+        "p1": "0.144",
+        "p2": "0.144",
+        "p3": "0.144"
       }
     },
     "discounts": [],
-    "sourceUrl": "https://octopusenergy.es/",
+    "sourceUrl": "https://octopusenergy.es/tarifa-octopus-relax",
     "checkedAt": "2026-10-16",
-    "validFrom": "2026-10-01",
-    "verified": false
+    "validFrom": "2026-10-15",
+    "verified": true,
+    "notes": "Product code OCTORELAX-2026-W42, read from the page's price data."
   }
 ]

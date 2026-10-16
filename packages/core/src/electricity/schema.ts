@@ -62,5 +62,7 @@ export const ElectricityTariff = ElectricityTariffTerms.extend({
   validFrom: z.iso.date(),
   /** false while prices are placeholders; the UI must not present an unverified tariff as real. */
   verified: z.boolean(),
+  /** How the price was read: first-year discounts, unit conversions, ambiguities. Shown next to the estimate. */
+  notes: z.string().optional(),
 });
 export type ElectricityTariff = z.infer<typeof ElectricityTariff>;
