@@ -1,5 +1,14 @@
 // Pure domain logic: no AI, network or file system.
-export { ElectricityBill } from "./electricity/schema";
+export {
+  compareTariffs,
+  CROSS_CHECK_TOLERANCE,
+  crossCheck,
+  type Comparison,
+  type CrossCheck,
+  type Offer,
+} from "./compare";
+export { electricityCalculator } from "./electricity/calculator";
+export { ElectricityBill, ElectricityTariff, ElectricityTariffTerms } from "./electricity/schema";
 export { ExtractedBill, type EnergyType } from "./extracted-bill";
 export type {
   BillBreakdown,

@@ -14,7 +14,9 @@ export const validElectricityBill: ElectricityBill = {
     powerEurPerKwDay: { p1: "0.100000", p2: "0.030000" },
     energyEurPerKwh: { p1: "0.200000", p2: "0.150000", p3: "0.100000" },
   },
+  socialBonusFinancingEur: "0.77",
   meterRentalEur: "0.81",
+  otherServicesEur: null,
   confidence: {
     retailer: "high",
     tariffName: "medium",
@@ -24,6 +26,8 @@ export const validElectricityBill: ElectricityBill = {
     contractedPowerKw: "high",
     consumptionKwh: "high",
     prices: "low",
+    socialBonusFinancingEur: "high",
     meterRentalEur: "medium",
+    otherServicesEur: "high",
   },
 };

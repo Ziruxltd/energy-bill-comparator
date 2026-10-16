@@ -65,15 +65,14 @@ energy-bill-comparator/
 │   │   │   │   ├── vat.ts
 │   │   │   │   └── calculator.ts # EnergyCalculator interface, BillBreakdown, CalculationResult
 │   │   │   ├── electricity/
-│   │   │   │   ├── schema.ts     # Zod: ElectricityBill, ElectricityTariff
+│   │   │   │   ├── schema.ts     # Zod: ElectricityBill, ElectricityTariffTerms, ElectricityTariff
 │   │   │   │   ├── power.ts      # Power term (P1, P2)
 │   │   │   │   ├── energy.ts     # Energy term (P1, P2, P3)
-│   │   │   │   ├── taxes.ts      # Electricity tax
-│   │   │   │   ├── extras.ts     # Meter rental, social bonus financing
+│   │   │   │   ├── taxes.ts      # Electricity tax (with its legal minimum)
 │   │   │   │   ├── tax-rates.ts  # Current rates, with effective date and source
-│   │   │   │   └── calculator.ts # Implements EnergyCalculator
+│   │   │   │   └── calculator.ts # Implements EnergyCalculator (line order, tax bases, extracted extras)
 │   │   │   ├── gas/              # (v2) Same shape as electricity/
-│   │   │   ├── compare.ts        # Picks the calculator by energyType, ranks tariffs
+│   │   │   ├── compare.ts        # Picks the calculator by energyType, ranks tariffs, cross-checks the total
 │   │   │   └── index.ts
 │   │   └── test/
 │   │       ├── electricity/
@@ -138,13 +137,21 @@ Electricity-specific (`ElectricityBill`):
 - `contractedPowerKw`: `{ p1, p2 }`
 - `consumptionKwh`: `{ p1, p2, p3 }`
 - `prices`: `powerEurPerKwDay { p1, p2 }`, `energyEurPerKwh { p1, p2, p3 }`
-- `meterRentalEur`
+- `socialBonusFinancingEur`: regulated, same for every retailer, so it's reused for every tariff
+- `meterRentalEur`: charged by the distributor, reused for every tariff
+- `otherServicesEur`: optional add-ons (maintenance, insurance…) before VAT; null when there are none. Added to every tariff so totals match the bill; savings don't change.
+
+Electricity bill line order (checked against a real 2.0TD bill): power p1, power p2, energy, −discounts, social bonus → electricity tax on that subtotal (never below 1 €/MWh) → meter rental, services → VAT on everything.
+
+`EnergyCalculator` has two methods: `calculateBill(bill, tariff)` and `currentTariff(bill)`, which builds the tariff the bill was charged with from its extracted prices and discounts (null if a price is missing). The calculator only needs `ElectricityTariffTerms` (`prices`, `discounts`), so the bill's own tariff and a retailer offer go through the same code.
 
 Tariff (`ElectricityTariff`, one entry in `data/tariffs/electricity/*.json`):
 
 - `retailer`, `tariffName`, `energyType`, `accessTariff` (`"2.0TD"`)
 - `prices`: `powerEurPerKwDay { p1, p2 }`, `energyEurPerKwh { p1, p2, p3 }` (decimal strings)
-- `sourceUrl`, `checkedAt`, `validFrom`
+- `discounts`: always `[]` for offers; only the bill's own tariff carries the user's discounts
+- `sourceUrl`, `checkedAt`, `validFrom`, `verified` (false while prices are placeholders), optional `notes`
+- Prices are always the retailer's own page, without taxes, for a new customer contracting online in the first 12 months (first-year discounts included, the later price in `notes`), so the annual savings estimate covers the first year. Never comparison sites: they disagreed with each other and with the official pages. `validFrom` is the date the page states, or `checkedAt` if it states none.
 
 Tariff JSON is imported by the Netlify function (bundled at deploy) and validated with the core Zod schema at module load. `packages/core` never reads files: it receives tariffs as arguments.
 
@@ -154,8 +161,9 @@ Gas-specific (`GasBill`, v2 — to be defined): access tariff (RL.1, RL.2…), c
 
 - `decimal.js` everywhere; amounts enter core as decimal strings.
 - Each bill line is rounded to cents with `ROUND_HALF_UP` (`roundToCents`), as Spanish bills print them. The total is the sum of rounded lines. Intermediate math is never rounded.
+- Electricity energy is **one** line: Σ kWh × price over p1–p3, rounded once (rounding per period was a cent off on a real bill). Power is one line per period, as bills print it.
 - The rounding mode is passed on each call, not set in `decimal.js` global config, so no import can change it.
 
 ## Extraction cross-check
 
-If the total recalculated from the extracted data differs from `totalAmountEur` by more than a threshold (e.g. 2%), flag the extraction as uncertain and show it in the UI.
+`compare.ts` recalculates the bill with its own tariff (`currentTariff`). If that total differs from `totalAmountEur` by more than 2% (`CROSS_CHECK_TOLERANCE`), the result is `mismatch` and the UI flags the extraction as uncertain. Savings are measured against the same recalculation (same rules on both sides), or the printed total when the bill's prices are missing. Annual savings = savings / days × 365.
