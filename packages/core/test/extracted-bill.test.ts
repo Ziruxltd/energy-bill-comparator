@@ -25,7 +25,7 @@ describe("ExtractedBill", () => {
       },
       socialBonusFinancingEur: null,
       meterRentalEur: null,
-      otherServicesEur: null,
+      otherServices: [],
       confidence: validElectricityBill.confidence,
     };
     expect(ExtractedBill.safeParse(bill).success).toBe(true);

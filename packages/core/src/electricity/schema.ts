@@ -26,8 +26,8 @@ export const ElectricityBill = z.object({
   /** "Financiación bono social": regulated, same for every retailer, so it's reused for every tariff. */
   socialBonusFinancingEur: nullableDecimal,
   meterRentalEur: nullableDecimal,
-  /** Optional add-ons (maintenance, insurance…) before VAT. Null means the bill has none. */
-  otherServicesEur: nullableDecimal,
+  /** Optional add-ons (maintenance, insurance…) before VAT, one per printed line; [] when there are none. */
+  otherServices: z.array(z.object({ description: z.string(), amountEur: DecimalString })),
   confidence: z.object({
     ...commonConfidenceFields,
     contractedPowerKw: ConfidenceLevel,
@@ -35,7 +35,7 @@ export const ElectricityBill = z.object({
     prices: ConfidenceLevel,
     socialBonusFinancingEur: ConfidenceLevel,
     meterRentalEur: ConfidenceLevel,
-    otherServicesEur: ConfidenceLevel,
+    otherServices: ConfidenceLevel,
   }),
 });
 export type ElectricityBill = z.infer<typeof ElectricityBill>;

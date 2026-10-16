@@ -139,7 +139,7 @@ Electricity-specific (`ElectricityBill`):
 - `prices`: `powerEurPerKwDay { p1, p2 }`, `energyEurPerKwh { p1, p2, p3 }`
 - `socialBonusFinancingEur`: regulated, same for every retailer, so it's reused for every tariff
 - `meterRentalEur`: charged by the distributor, reused for every tariff
-- `otherServicesEur`: optional add-ons (maintenance, insurance…) before VAT; null when there are none. Added to every tariff so totals match the bill; savings don't change.
+- `otherServices[]` (`description`, `amountEur`): optional add-ons (maintenance, insurance…) before VAT, one per printed line; `[]` when there are none. The model lists them and the code sums them, so the LLM never adds numbers. Added to every tariff so totals match the bill; savings don't change.
 
 Electricity bill line order (checked against a real 2.0TD bill): power p1, power p2, energy, −discounts, social bonus → electricity tax on that subtotal (never below 1 €/MWh) → meter rental, services → VAT on everything.
 

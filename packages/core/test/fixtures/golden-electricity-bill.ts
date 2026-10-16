@@ -21,7 +21,10 @@ export const goldenElectricityBill: ElectricityBill = {
   },
   socialBonusFinancingEur: "0.81",
   meterRentalEur: "0.88",
-  otherServicesEur: "12.62",
+  otherServices: [
+    { description: "Asistente Smart Iberdrola", amountEur: "3.13" },
+    { description: "Protección Eléctrica Hogar Plus", amountEur: "9.49" },
+  ],
   confidence: {
     retailer: "high",
     tariffName: "low",
@@ -33,6 +36,6 @@ export const goldenElectricityBill: ElectricityBill = {
     prices: "high",
     socialBonusFinancingEur: "high",
     meterRentalEur: "high",
-    otherServicesEur: "high",
+    otherServices: "high",
   },
 };

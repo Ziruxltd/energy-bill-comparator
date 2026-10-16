@@ -83,9 +83,15 @@ const calculateBill = (
     { concept: "meterRental", amountEur: toDecimal(bill.meterRentalEur) },
     // shortcut: the bill's add-ons are added to every tariff so totals match the bill and savings are unaffected;
     // the UI must label them "services from your current bill".
-    ...(bill.otherServicesEur === null
+    // The model lists each add-on; the code sums them (the LLM never calculates).
+    ...(bill.otherServices.length === 0
       ? []
-      : [{ concept: "otherServices", amountEur: new Decimal(bill.otherServicesEur) }]),
+      : [
+          {
+            concept: "otherServices",
+            amountEur: sumAmounts(bill.otherServices.map((item) => new Decimal(item.amountEur))),
+          },
+        ]),
   ];
   const vatBase = sumAmounts(linesBeforeVat.map((line) => line.amountEur));
   const lines = [
